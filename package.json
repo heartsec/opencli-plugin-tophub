@@ -1,0 +1,9 @@
+{
+  "name": "opencli-plugin-tophub",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Tophub adapters for OpenCLI",
+  "peerDependencies": {
+    "@jackwener/opencli": ">=1.7.8"
+  }
+}
