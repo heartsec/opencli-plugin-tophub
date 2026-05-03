@@ -21,9 +21,13 @@ const PLATFORM_MAP = {
   zhihu: '知乎',
   zh: '知乎',
   '知乎': '知乎',
+  nanfangzhoumo: '南方周末',
+  nfzm: '南方周末',
+  '南方周末': '南方周末',
 };
 
 const DEFAULT_PLATFORMS = ['抖音', '微博', '微信', '知乎'];
+const SUPPORTED_PLATFORMS = [...DEFAULT_PLATFORMS, '南方周末'];
 const BASE_URL = 'https://tophub.today';
 
 function cleanText(value) {
@@ -39,12 +43,12 @@ function normalizePlatforms(value) {
     .filter(Boolean)
     .map(item => PLATFORM_MAP[item.toLowerCase()] || PLATFORM_MAP[item] || item);
 
-  const unknown = platforms.filter(platform => !DEFAULT_PLATFORMS.includes(platform));
+  const unknown = platforms.filter(platform => !SUPPORTED_PLATFORMS.includes(platform));
   if (unknown.length > 0) {
     throw new CliError(
       'INVALID_ARGUMENT',
       `Unknown platform: ${unknown.join(', ')}`,
-      `Supported platforms: ${DEFAULT_PLATFORMS.join(', ')}; aliases: douyin,weibo,weixin,zhihu`
+      `Supported platforms: ${SUPPORTED_PLATFORMS.join(', ')}; aliases: douyin,weibo,weixin,zhihu,nanfangzhoumo`
     );
   }
 
@@ -58,7 +62,7 @@ function buildCategoryUrl(platform) {
 cli({
   site: 'tophub',
   name: 'hot',
-  description: '今日热榜热点链接（抖音/微博/微信/知乎）',
+  description: '今日热榜热点链接（抖音/微博/微信/知乎/南方周末）',
   domain: 'tophub.today',
   strategy: Strategy.PUBLIC,
   browser: true,
@@ -67,7 +71,7 @@ cli({
       name: 'platform',
       type: 'string',
       default: 'douyin,weibo,weixin,zhihu',
-      help: 'Platforms: all, douyin,weibo,weixin,zhihu or Chinese names separated by comma',
+      help: 'Platforms: all, douyin,weibo,weixin,zhihu,nanfangzhoumo or Chinese names separated by comma',
     },
     { name: 'limit', type: 'int', default: 0, help: 'Max items per board; 0 means all rendered items' },
   ],
